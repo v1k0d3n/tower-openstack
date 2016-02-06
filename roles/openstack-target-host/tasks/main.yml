@@ -1,0 +1,38 @@
+---
+- name: Perform an upgrade
+  apt:
+    update_cache: yes
+    upgrade: dist
+  notify:
+    - reboot
+    - wait for ssh
+
+- name: Ensure dependencies are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - bridge-utils
+    - debootstrap
+    - ifenslave
+    - ifenslave-2.6
+    - lsof
+    - lvm2
+    - ntp
+    - ntpdate
+    - openssh-server
+    - sudo
+    - tcpdump
+    - vlan
+
+- name: Ensure required networking modules are enabled
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - bonding
+    - 8021q
+  notify:
+    - reboot
+    - wait for ssh

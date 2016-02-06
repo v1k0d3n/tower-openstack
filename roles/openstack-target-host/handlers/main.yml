@@ -1,0 +1,12 @@
+---
+- name: reboot
+  shell: reboot
+
+- name: wait for ssh
+  wait_for:
+    port: 22
+    host: "{{ inventory_hostname }}"
+    timeout: 320
+    state: started
+  delegate_to: localhost
+  become: no

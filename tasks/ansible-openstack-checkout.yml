@@ -1,0 +1,20 @@
+---
+- name: Ensure the checkout dir exists
+  file:
+    path: "{{ checkout_dir }}"
+    state: directory
+
+- name: Clone the specified version of openstack-ansible
+  git:
+    repo: git@github.com:openstack/openstack-ansible.git
+    version: "{{ ansible_openstack_tag }}"
+    dest: "{{ checkout_dir }}"
+    accept_hostkey: yes
+
+- name: Make sure the deploy host user owns the openstack-ansible checkout
+  file:
+    path: "{{ checkout_dir }}"
+    owner: "{{ host_user }}"
+    group: "{{ host_user }}"
+    recurse: yes
+    state: directory

@@ -1,0 +1,5 @@
+---
+- name: Ensure the checkout dir is removed
+  file:
+    path: "{{ checkout_dir }}"
+    state: absent

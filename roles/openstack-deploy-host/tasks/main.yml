@@ -1,0 +1,29 @@
+---
+- name: Ensure ntp and ntpdate are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ntp
+    - ntpdate
+  notify: restart ntp
+
+- name: Set the timezone
+  copy:
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+    content: "{{ deploy_host_timezone }}"
+  notify: update timezone
+
+- name: Ensure dependencies are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - build-essential
+    - python-pip
+    - python-dev
+    - git

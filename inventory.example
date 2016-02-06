@@ -1,0 +1,5 @@
+[deploy-host]
+deploy-host.some-domain.local ansible_user=ubuntu
+
+[target-host]
+target-host.some-domain.local ansible_user=ubuntu

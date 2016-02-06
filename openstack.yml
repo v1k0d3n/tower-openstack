@@ -1,0 +1,22 @@
+---
+- name: Prepare the deploy host and grab ansible-openstack
+  hosts: deploy-host
+  become: yes
+  roles:
+    - role: openstack-deploy-host
+  tasks:
+    - include: tasks/ansible-openstack-checkout.yml
+
+- name: Prepare the target hosts
+  hosts: target-hosts
+  become: yes
+  roles:
+    - role: openstack-target-host
+
+# This is where all the installation steps will go, with cleanup at the end
+
+- name: Clean up the deploy host
+  hosts: deploy-host
+  become: yes
+  tasks:
+    - include: tasks/clean-ansible-openstack-checkout.yml
